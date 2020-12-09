@@ -15,27 +15,26 @@ def get_nb_bags(mylist, color_check):
     return result
 
 def check_bags(mylist, color_check):
-    total = 1
+    print("checking " + color_check)
     for line in mylist:
         ll = re.split('bags contain|,',line)
         if (color_check in ll[0]):
-            x = 0
+            x = 1
             for i in range(1, len(ll)):
                 if (ll[i].split()[0] != "no"):
                     nb = ll[i].split()[0]
                     color = ll[i].replace(nb, "").replace("bags", "").replace("bag", "").replace(".", "").strip()
-                    total += int(nb) * get_nb_bags(mylist, color)
-                    check_bags(mylist, color)
-    print(total)
-    return total
+                    x += int(nb) * check_bags(mylist, color)
+                else:
+                    return 1
+            return x
+    return 0
     
-
-    return total
+    
 def main():
     mylist = sys.stdin.read().split("\n")
     bags_to_check = []
-    total = 1
-    check_bags(mylist, 'shiny gold')
+    total = check_bags(mylist, 'shiny gold') - 1
     print(total)
 
 if __name__ == "__main__":
