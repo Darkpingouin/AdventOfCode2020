@@ -14,10 +14,20 @@ def total_list(mylist):
     return total
 
 def find_sum(mylist, number, index):
+    mylist = list(map(int, mylist))
     for i in range(index):
-        for j in range(1, index):
-            if (total_list(mylist[i:j]) == number):
-                return(int(min(mylist[i:j])) + int(max(mylist[i:j])))
+        curr_sum = mylist[i]
+        j = i + 1 
+        while j <= index:
+            if curr_sum == number:
+                print(min(mylist[i:j]) + max(mylist[i:j]))
+                return 1
+            if curr_sum > number or j == index:
+                break
+            curr_sum = curr_sum + mylist[j]
+            j += 1
+    return 0
+    
 
 def main():
     mylist = sys.stdin.read().split("\n")
@@ -25,10 +35,6 @@ def main():
     for i in range(size, len(mylist)):
         if not check_valid(mylist, size, i):
             number = int(mylist[i])
+            print(number)
             break;
-    print(find_sum(mylist, number, i))
-        
-    
-
-if __name__ == "__main__":
-    main()
+    find_sum(mylist, number, i)
